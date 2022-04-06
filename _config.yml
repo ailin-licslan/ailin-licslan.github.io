@@ -3,5 +3,5 @@ theme: jekyll-theme-cayman
 
 deploy:
   type: git
-  repository: https://github.com/ailin-licslan/ailin.github.io.git //你的github项目地址
+  repository: https://github.com/ailin-licslan/ailin-licslan.github.io.git //你的github项目地址
   branch: main
