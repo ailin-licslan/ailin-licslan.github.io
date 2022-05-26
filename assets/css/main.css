@@ -72,6 +72,31 @@ input, select, textarea {
 	appearance: none;
 }
 
+/* me */
+.goods {
+            width: 50%;
+            text-align: center;
+            margin: 50px auto;
+        }
+
+        .jump {
+            animation: myfirst 2s infinite;
+        }
+
+        @keyframes myfirst {
+            0% {
+                transform: translate(0px, 30px);
+            }
+            50% {
+                transform: translate(0px, -30px);
+            }
+            100% {
+                transform: translate(0px, 30px);
+            }
+        }
+
+
+
 /* Basic */
 
 	@-ms-viewport {
