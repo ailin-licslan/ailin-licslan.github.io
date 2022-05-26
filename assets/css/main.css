@@ -85,15 +85,17 @@ input, select, textarea {
 
         @keyframes myfirst {
             0% {
-                transform: translate(0px, 30px);
+                transform: translate(0px, 15px);
             }
             50% {
                 transform: translate(0px, -30px);
             }
             100% {
-                transform: translate(0px, 30px);
+                transform: translate(0px, 5px);
             }
         }
+
+/*center - test */
 
 
 
