@@ -72,6 +72,35 @@ input, select, textarea {
 	appearance: none;
 }
 
+/**pic switch*/
+
+#parn{
+
+    width: 1100px ;
+    height: 830px;
+    overflow: hidden;
+    /* 将超出范围的元素隐藏起来,这样每次就只显示一个与盒子大小相等的元素 */
+}
+#son{
+    width: 1100px;
+    /* 子盒子中放的大小是与父盒子的倍数关系 */
+    animation: switchPic 15s 100;
+    /* 后面的参数:设置的动画名称 时长 播放次数 */
+
+}
+#son>img{
+    float: left;
+    width: 550px;
+    height: 830px;
+}
+@keyframes switchPic {
+    50% {margin-left: -550px;}
+  /* 这里我只放了2张图片,所以,只要做50%做一次动作即可 */
+}
+
+
+
+
 /* me */
 .goods {
             width: 50%;

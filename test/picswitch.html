@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3d</title>
+    <style>
+#parn{
+
+    width: 550px ;
+    height: 830px;
+    overflow: hidden;
+    /* 将超出范围的元素隐藏起来,这样每次就只显示一个与盒子大小相等的元素 */
+}
+#son{
+    width: 1100px;
+    /* 子盒子中放的大小是与父盒子的倍数关系 */
+
+    animation: myname 3s 100;
+    /* 后面的参数:设置的动画名称 时长 播放次数 */
+
+}
+#son>img{
+    float: left;
+    width: 550px;
+    height: 830px;
+}
+@keyframes myname {
+    50% {margin-left: -550px;}
+  /* 这里我只放了2张图片,所以,只要做50%做一次动作即可 */
+
+}
+    </style>
+</head>
+<body>
+<div id="parn">
+    <div id="son">
+        <img src="../images/pic03.jpg" alt="">
+        <img src="../images/pic04.jpg" alt="">
+    </div>
+</div>
+
+
+
+</body>
+</html>
