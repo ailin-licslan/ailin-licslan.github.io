@@ -11,6 +11,3 @@ C
 test/picswitch.html,1\a\1a872324dd09475bb62f60db5539f97b53a143dd
 R
 "assets/sass/components/_image.scss,0\0\00f62b3edd68a45b818d827e8d6ec5e82c227003
-:
-
-index.html,f\6\f6013a00b362253c64368d6eebc50ea2131754e2
