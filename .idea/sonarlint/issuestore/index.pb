@@ -11,3 +11,5 @@ C
 test/picswitch.html,1\a\1a872324dd09475bb62f60db5539f97b53a143dd
 R
 "assets/sass/components/_image.scss,0\0\00f62b3edd68a45b818d827e8d6ec5e82c227003
+M
+english/enblog/self_talk.html,1\1\11f198a0871d4a6d6e5aa1558f09a0f5ced444ca
