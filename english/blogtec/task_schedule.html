@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>stay hungry stay foolish</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="../../assets/css/main.css"/>
+    <style>
+        #wrapper {
+    margin: auto;
+    margin-top: 0px;
+    width: 50%;
+    padding: 5px;
+}
+
+pre {
+white-space: pre-wrap; /*css-3*/
+white-space: -moz-pre-wrap; /*Mozilla,since1999*/
+white-space: -pre-wrap; /*Opera4-6*/
+white-space: -o-pre-wrap; /*Opera7*/
+word-wrap: break-word; /*InternetExplorer5.5+*/
+}
+    </style>
+</head>
+<body class="is-preload">
+
+<div id="wrapper">
+    <section>
+
+
+            <div style="margin:80px 50px 75px 50px;">
+                The first tec blog it's about how to set tasks and then task will be executed at
+                the you time want to happen. so we are going to use redis to handle this . it's a
+                data structure [ZSetOperations] that can pop the biggest score time out when the
+                specific time comes. below is core code of implementing task schedule.
+                <p/>
+               <!-- <div class="content">
+                    <div class="gallery">
+                        <a href="../../images/leon/leon05.jpg"
+                           class="landscape"><img
+                                src="../../images/leon/leon05.jpg" alt="" /></a>
+                        <a href="../../images/leon/leon02.jpg"><img
+                                src="../../images/leon/leon02.jpg" alt="" /></a>
+                        <a href="../../images/leon/leon04.jpg"><img
+                                src="../../images/leon/leon04.jpg" alt="" /></a>
+                    </div>
+                </div>-->
+
+                <div>
+                    <pre>
+                        <span>class: ConsumeTask</span>
+package com.delaytask.demo.consumer;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.stereotype.Service;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
+/**
+ * @author WEILIN
+ */
+@Slf4j
+@Service
+public class ConsumeTask {
+private static final String REDIS_KEY_POST = "task:happen:time";
+private RedisTemplate<String, Object> redisTemplate;
+private ScheduledExecutorService ex = Executors.newSingleThreadScheduledExecutor();
+public ConsumeTask(RedisTemplate<String, Object> redisTemplate) {
+this.redisTemplate = redisTemplate;
+}
+
+/**
+* task: This design must have practical business meaning. It can also be a combination of json
+* string + timestamp. timestamp indicates the time when the task is to be executed regularly.
+*/
+public void produce(String id, Long timestamp) {
+log.info("begin add content :{} to redis, the timestamp is :{}", id, timestamp);
+ZSetOperations<String, Object> zso = redisTemplate.opsForZSet();
+Boolean add;
+if (isNumeric(id)) {
+  add = zso.add(REDIS_KEY_POST, Long.parseLong(id), timestamp);
+} else {
+  add = zso.add(REDIS_KEY_POST, id, timestamp);
+}
+if (Boolean.TRUE.equals(add)) {
+  Long size = zso.size(REDIS_KEY_POST);
+  if (size != null) {
+    Set<ZSetOperations.TypedTuple<Object>> set = zso.rangeWithScores(REDIS_KEY_POST, 0L, size);
+    if (set != null) {
+      set.forEach(tuple -> log.info("member：{} score：{}", tuple.getValue(), tuple.getScore()));
+    }
+  }
+}
+log.info("add task to redis is {}", add);
+}
+
+
+/**
+* Executes with a fixed delay, which is the delay between the termination of one execution and
+* the start of the next.
+*/
+public void execTaskTake() {
+ex.scheduleWithFixedDelay(new Task(), 1, 1, TimeUnit.SECONDS);
+}
+
+public class Task implements Runnable {
+@Override
+public void run() {
+  long time = System.currentTimeMillis();
+  ZSetOperations<String, Object> zso = redisTemplate.opsForZSet();
+  //Take out overdue tasks and take 30 items at a time. adjust them appropriately here.
+  Set<Object> objects = zso.rangeByScore(REDIS_KEY_POST, 0, time, 0, 30);
+  if (objects == null || objects.isEmpty()) {
+    return;
+  }
+  for (Object task : objects) {
+    //And delete the corresponding data key + id in redis
+    Long count = zso.remove(REDIS_KEY_POST, task);
+    log.info("Task from redis is :{}", task);
+    if (count != null && count == 1) {
+      try {
+        //The real business logic processing is to send a request
+        log.info("handle logic ..., vo is {}", task);
+      } catch (Exception e) {
+        log.error("sendPost have error pls check: {}, send content:{}", e, task);
+      } finally {
+        log.info("record log here plz ... send content:{}", task);
+      }
+    }
+  }
+}
+}
+public static boolean isNumeric(String str) {
+for (int i = str.length(); --i >= 0; ) {
+  if (!Character.isDigit(str.charAt(i))) {
+    return false;
+  }
+}
+return true;
+}
+}
+                    <span>class:TestExec</span>
+package com.delaytask.demo.controller;
+import com.google.gson.Gson;
+import com.delaytask.demo.consumer.ConsumeTask;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import lombok.Data;
+/**
+ * @author WEILIN
+ */
+@RestController
+public class TestExec {
+  @Autowired
+  private ConsumeTask task;
+  @RequestMapping("/add/{path}")
+  public String addData(@PathVariable("path") Integer path) {
+    Person person = new Person();
+    person.setAge(15);
+    person.setName("jack……&￥#werw~`4~");
+    long num = 1000L;
+    if (path == 1) {
+      //1655380824000    1655391624000   1655388538000
+      task.produce(new Gson().toJson(person), 1655389018000L);
+    } else {
+      task.produce(Long.toString(num), 1655384424000L);
+    }
+    return "success";
+  }
+}
+@Data
+class Person {
+  private String name;
+  private int age;
+}
+                    </pre>
+                </div>
+            </div>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="../../assets/js/jquery.scrolly.min.js"></script>
+<script src="../../assets/js/browser.min.js"></script>
+<script src="../../assets/js/breakpoints.min.js"></script>
+<script src="../../assets/js/util.js"></script>
+<script src="../../assets/js/main.js"></script>
+
+</body>
+</html>
