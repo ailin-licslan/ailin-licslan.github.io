@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>stay hungry stay foolish</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <meta name="description" content=""/>
+    <meta name="keywords" content=""/>
+    <link rel="stylesheet" href="../../assets/css/main.css"/>
+    <style>
+        #wrapper {
+    margin: auto;
+    margin-top: 0px;
+    width: 50%;
+    padding: 5px;
+}
+
+pre {
+white-space: pre-wrap; /*css-3*/
+white-space: -moz-pre-wrap; /*Mozilla,since1999*/
+white-space: -pre-wrap; /*Opera4-6*/
+white-space: -o-pre-wrap; /*Opera7*/
+word-wrap: break-word; /*InternetExplorer5.5+*/
+}
+    </style>
+</head>
+<body class="is-preload">
+
+<div id="wrapper">
+    <section>
+
+
+            <div style="margin:80px 50px 75px 50px;">
+                I guess for most java developer has been used framework [Mybatis] , today's topic
+                is about how we check collection List in our code, there different way we can use,
+                the first one is annotation @Select or xml file to write in our project .
+                Sometimes will have some strange situation which is we use @Select annotation to
+                query data we can't get data if we use [if test='postIdList!=null and postIdList.size()>0']
+                then if we use [if test='postIdList!=null and postIdList.size>0'] can get data
+                from database query.
+                so please remember once we use @Select annotation to query data we should use way of
+                test='postIdList!=null and postIdList.size>0 .
+                <p/>
+
+            </div>
+    </section>
+</div>
+
+<!-- Scripts -->
+<script src="../../assets/js/jquery.min.js"></script>
+<script src="../../assets/js/jquery.scrolly.min.js"></script>
+<script src="../../assets/js/browser.min.js"></script>
+<script src="../../assets/js/breakpoints.min.js"></script>
+<script src="../../assets/js/util.js"></script>
+<script src="../../assets/js/main.js"></script>
+
+</body>
+</html>
