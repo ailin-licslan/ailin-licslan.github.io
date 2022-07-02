@@ -9,5 +9,3 @@ f
 6english/enblog/why_you_understand_but_cannot_talk.html,4\3\435a854edb2f66c809938de9ff25f2677d4b39f4
 P
  english/enblog/salty_coffee.html,3\0\3096303574909cbc5742919ebc7462fa42fdadfe
-S
-#english/enblog/vocabulary_list.html,e\d\ed2e1c32261d7380dc551a7c9b123e9dd463b20b
