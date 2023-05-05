@@ -2572,10 +2572,10 @@ input, select, textarea {
 		}
 
 		.image.fill img {
-			height: 115%;
+			height: 100%;
 			left: 0;
 			position: relative;
-			margin-top: fill;
+			top: 0;
 			width: 100%;
 		}
 
